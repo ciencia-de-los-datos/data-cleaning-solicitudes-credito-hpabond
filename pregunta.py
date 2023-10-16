@@ -7,8 +7,6 @@ correctamente. Tenga en cuenta datos faltantes y duplicados.
 
 """
 
-import pandas as pd
-from datetime import datetime
 
 
 import pandas as pd
