@@ -9,7 +9,10 @@ correctamente. Tenga en cuenta datos faltantes y duplicados.
 
 import pandas as pd
 from datetime import datetime
-import numexpr as ne
+
+
+import pandas as pd
+from datetime import datetime
 
 def clean_data():
     
@@ -19,10 +22,9 @@ def clean_data():
     columnas_a_verificar = ['tipo_de_emprendimiento','barrio','comuna_ciudadano' ]
     df_clean = df.dropna(subset=columnas_a_verificar)
 
-
     def standardize_date(date_str):
         try:
-            #  analizar la fecha en diferentes formatos
+            # Analizar la fecha en diferentes formatos
             date = datetime.strptime(date_str, '%d/%m/%Y')
         except ValueError:
             try:
@@ -39,12 +41,10 @@ def clean_data():
     def standardize_credit_amount(amount_str):
         try:
             # Eliminar caracteres especiales y convertir a un número
-            cleaned_amount = ne.evaluate(f'1*({amount_str.replace("$", "").replace(",", "")})')
-            if isinstance(cleaned_amount, list):
-                return cleaned_amount[0]
+            cleaned_amount = float(amount_str.replace("$", "").replace(",", ""))
             return cleaned_amount
         except (ValueError, AttributeError):
-            return None  # Manejar valores no válidos  
+            return None  # Manejar valores no válidos
 
     # Realizar la transformación de la columna "monto_del_credito" después de eliminar las filas con datos vacíos
     df_clean['monto_del_credito'] = df_clean['monto_del_credito'].apply(standardize_credit_amount)
@@ -96,3 +96,4 @@ def clean_data():
     df_clean.reset_index(drop=True, inplace=True)
 
     return df_clean
+
